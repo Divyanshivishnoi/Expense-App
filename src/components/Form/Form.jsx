@@ -1,11 +1,33 @@
 import React from "react";
 
 const ExpenseForm = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const amount = event.target.amount.value;
+    const title = event.target.title.value;
+    const date = event.target.date.value;
+    const category = event.target.category.value;
+    const expense = {
+      amount,
+      title,
+      date,
+      category,
+    };
+    let expenses = [];
+    if (localStorage.getItem("expenses")) {
+      expenses = JSON.parse(localStorage.getItem("expenses"));
+    }
+    expenses.push(expense);
+    console.log(expenses);
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+    event.target.reset();
+  };
+
   return (
     <div className="form-container">
       <h2>Expense Form</h2>
       {/* Add the missing <form> tag */}
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="amount">Amount</label>
           <input
@@ -28,12 +50,7 @@ const ExpenseForm = () => {
         </div>
         <div className="form-group">
           <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-          />
+          <input type="date" id="date" name="date" required />
         </div>
         <div className="form-group">
           <label htmlFor="category">Category</label>
@@ -46,7 +63,7 @@ const ExpenseForm = () => {
           </select>
         </div>
         <button type="submit" className="btn">
-          Submit
+          Add Expense
         </button>
       </form>
     </div>
@@ -56,21 +73,3 @@ const ExpenseForm = () => {
 export default ExpenseForm;
 
 
-
-
-
-
-    {/* // <div className="form">
-    //     <textarea>
-    //     <h1>Expense App </h1>
-
-    //     <label>Title</label>
-    //     <input type='text' placeholder='Enter Title' /><br></br>
-    //     <label>Amount</label>
-    //     <input type='Amount' placeholder='Enter Amount' /><br></br>
-    //     <label>Date</label>
-    //     <input type='date' placeholder='Enter Date' /><br></br>
-    //     <label>category</label>
-    //     <input type='text' placeholder='Enter category' /><br></br>
-    //     </textarea>
-    // </div> */}
